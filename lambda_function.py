@@ -30,7 +30,7 @@ def lambda_handler(event, context):
 
     # either write updated list back to bucket object, or delete bucket object if updated list is empty
     if len(inputLst) > 0:
-        inputObj.put(Body=(json.dumps(inputLst, indent=2, default=str).encode('UTF-8')), ContentType="application/json")
+        inputObj.put(Body=(json.dumps(inputLst, indent=2, default=str).encode('UTF-8')), ContentType="application/json;charset=utf-8")
     else:
         inputObj.delete()
 
@@ -73,7 +73,7 @@ def lambda_handler(event, context):
 
         # don't attempt other tweets in thread if intial tweet fails
         outputLst.append(tweetThreadResults)
-        outputObj.put(Body=(json.dumps(outputLst, indent=2, default=str).encode('UTF-8')), ContentType="application/json")
+        outputObj.put(Body=(json.dumps(outputLst, indent=2, default=str).encode('UTF-8')), ContentType="application/json;charset=utf-8")
         raise RuntimeError(f"Error occurred at the beginning of a Tweet thread. Thread aborted. See Tweet thread results: {tweetThreadResults}")
     else:
         lastId = response.id
@@ -114,7 +114,7 @@ def lambda_handler(event, context):
 
     # append tweetThreadResults to output list and write back to bucket object
     outputLst.append(tweetThreadResults)
-    outputObj.put(Body=(json.dumps(outputLst, indent=2, default=str).encode('UTF-8')), ContentType="application/json")
+    outputObj.put(Body=(json.dumps(outputLst, indent=2, default=str).encode('UTF-8')), ContentType="application/json;charset=utf-8")
     if midThreadError:
         raise RuntimeError(f"Error occurred in the middle of a Tweet thread. Thread continued. See Tweet thread results: {tweetThreadResults}")
     else:
